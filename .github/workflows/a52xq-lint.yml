@@ -1,0 +1,46 @@
+name: A52XQ Port Scaffold Check
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - seventeen-a52xq
+    paths:
+      - "target/a52xq/**"
+      - "platform/sm7225/**"
+      - "tools/a52xq/**"
+      - ".github/workflows/a52xq-lint.yml"
+  pull_request:
+    paths:
+      - "target/a52xq/**"
+      - "platform/sm7225/**"
+      - "tools/a52xq/**"
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Validate target identity
+        run: |
+          grep -q 'TARGET_NAME="Galaxy A52 5G"' target/a52xq/config.sh
+          grep -q 'TARGET_CODENAME="a52xq"' target/a52xq/config.sh
+          grep -q 'TARGET_PLATFORM="sm7225"' target/a52xq/config.sh
+          grep -q 'TARGET_SUPER_PARTITION_SIZE=10013900800' target/a52xq/config.sh
+          grep -q 'TARGET_QTI_DYNAMIC_PARTITIONS_SIZE=10009706496' target/a52xq/config.sh
+
+      - name: Validate scripts
+        run: |
+          bash -n tools/a52xq/check_host.sh
+          bash -n tools/a52xq/inspect_mystic_gsi.sh
+          bash -n platform/sm7225/config.sh
+          python3 -m py_compile tools/a52xq/compare_vintf.py
+
+      - name: Confirm risky legacy patches remain disabled
+        run: |
+          for group in adb camera miscs spf stock_blobs; do
+            test -f "target/a52xq/patches/$group/disable"
+          done
