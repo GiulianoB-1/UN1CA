@@ -25,6 +25,8 @@ Android 16 / SDK 36, so both source shipping and board API levels are 36.
 - SHA-256: `A9D0D2C3D8C5896B43C31D50494F8B2FABB5C7008F181EF4BA0A4F6765487BAA`
 - AP: `AP_F971BXXU1AZFW_F971BXXU1AZFW_MQB111318164_REV00_user_low_ship_MULTI_CERT_meta_OS17.tar.md5`
 - AP size: 13,832,601,723 bytes
+- BL: `BL_F971BXXU1AZFW_F971BXXU1AZFW_MQB111318164_REV00_user_low_ship_MULTI_CERT.tar.md5`
+- BL size: 142,868,593 bytes
 - `super.img.lz4` size: 12,537,841,524 bytes
 
 This is a full Samsung firmware package. No incremental OTA or base firmware
