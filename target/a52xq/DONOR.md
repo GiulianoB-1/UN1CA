@@ -25,8 +25,10 @@ Android 16 / SDK 36, so both source shipping and board API levels are 36.
 - SHA-256: `A9D0D2C3D8C5896B43C31D50494F8B2FABB5C7008F181EF4BA0A4F6765487BAA`
 - AP: `AP_F971BXXU1AZFW_F971BXXU1AZFW_MQB111318164_REV00_user_low_ship_MULTI_CERT_meta_OS17.tar.md5`
 - AP size: 13,832,601,723 bytes
+- AP SHA-256: `2C3D1D1099D596EFDDB6D343AF85C535C85A2F8CCFFDCDD0D24CEA928AF91BF0`
 - BL: `BL_F971BXXU1AZFW_F971BXXU1AZFW_MQB111318164_REV00_user_low_ship_MULTI_CERT.tar.md5`
 - BL size: 142,868,593 bytes
+- BL SHA-256: `343A70C24F60C8EB6F3A6A1F2F3888E3971E1616FDCD1CEDAA62F28DCE745C97`
 - `super.img.lz4` size: 12,537,841,524 bytes
 
 This is a full Samsung firmware package. No incremental OTA or base firmware
@@ -62,11 +64,31 @@ UN1CA expects locally downloaded Odin files under:
 out/odin/SM-F971B_EUX/
 ```
 
-Stage the AP and BL there and set `.downloaded` to:
+The staging helper verifies the AP, extracts and verifies only BL from the
+outer ZIP, and writes the required `.downloaded` marker:
+
+```bash
+tools/a52xq/stage_fold8_donor.sh --verify-archive
+```
+
+The marker value is:
 
 ```text
 F971BXXU1AZFW/F971BOXM1AZFW/F971BXXU1AZFW
 ```
+
+After sourcing the a52xq environment, run only the source extraction:
+
+```bash
+source buildenv.sh a52xq
+unica extract_fw --ignore-target
+```
+
+This extracts firmware into `out/fw/SM-F971B_EUX/`; it does not create the
+UN1CA work directory, build images, package a ROM or flash a device. The
+extractor requires the normal UN1CA host tools, working network access for its
+firmware-version check, sufficient free space, and `sudo` for read-only
+filesystem mounts.
 
 Do not commit firmware archives or partition images to Git.
 
