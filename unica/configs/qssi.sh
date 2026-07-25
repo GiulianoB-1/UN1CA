@@ -3,13 +3,22 @@
 
 # UN1CA configuration file for Snapdragon devices (qssi)
 
-# Galaxy S22 (Snapdragon) (One UI 8.0)
-SOURCE_FIRMWARE="SM-S901E/TUR/350999641234561"
+# Galaxy Z Fold8 (One UI 9.0)
+#
+# The local F971BXXU1AZFW package is the pinned Android 17 donor for the
+# seventeen-a52xq branch. The numeric identifier is retained only to satisfy
+# the firmware-string parser; use the verified local package documented in
+# target/a52xq/DONOR.md instead of downloading a moving "latest" build.
+SOURCE_FIRMWARE="SM-F971B/EUX/350999641234561"
 SOURCE_EXTRA_FIRMWARES=()
-SOURCE_PLATFORM_SDK_VERSION=36
-SOURCE_PRODUCT_SHIPPING_API_LEVEL=31
-SOURCE_BOARD_API_LEVEL=31
+SOURCE_PLATFORM_SDK_VERSION=37
+SOURCE_PRODUCT_SHIPPING_API_LEVEL=36
+SOURCE_BOARD_API_LEVEL=36
 SOURCE_SUPER_GROUP_NAME="qti_dynamic_partitions"
+
+# TODO(oneui9): Values below are inherited from the previous Galaxy S22
+# One UI 8 donor and must be audited against F971BXXU1AZFW before the global
+# product_feature module is re-enabled.
 
 # SEC Product Feature
 SOURCE_AUDIO_CONFIG_RECORDALIVE_LIB_VERSION="08020"
