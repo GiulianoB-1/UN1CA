@@ -68,7 +68,7 @@ The staging helper verifies the AP, extracts and verifies only BL from the
 outer ZIP, and writes the required `.downloaded` marker:
 
 ```bash
-tools/a52xq/stage_fold8_donor.sh --verify-archive
+bash tools/a52xq/stage_fold8_donor.sh --verify-archive
 ```
 
 The marker value is:
