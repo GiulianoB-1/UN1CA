@@ -48,6 +48,7 @@ jobs:
         run: |
           bash -n tools/a52xq/check_host.sh
           bash -n tools/a52xq/inspect_mystic_gsi.sh
+          bash -n tools/a52xq/stage_fold8_donor.sh
           bash -n platform/sm7225/config.sh
           bash -n unica/configs/qssi.sh
           python3 -m py_compile tools/a52xq/compare_vintf.py
