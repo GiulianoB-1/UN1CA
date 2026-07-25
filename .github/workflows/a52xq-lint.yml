@@ -9,12 +9,16 @@ on:
       - "target/a52xq/**"
       - "platform/sm7225/**"
       - "tools/a52xq/**"
+      - "unica/configs/qssi.sh"
+      - "unica/patches/product_feature/**"
       - ".github/workflows/a52xq-lint.yml"
   pull_request:
     paths:
       - "target/a52xq/**"
       - "platform/sm7225/**"
       - "tools/a52xq/**"
+      - "unica/configs/qssi.sh"
+      - "unica/patches/product_feature/**"
 
 jobs:
   validate:
@@ -32,11 +36,20 @@ jobs:
           grep -q 'TARGET_SUPER_PARTITION_SIZE=10013900800' target/a52xq/config.sh
           grep -q 'TARGET_QTI_DYNAMIC_PARTITIONS_SIZE=10009706496' target/a52xq/config.sh
 
+      - name: Validate Android 17 donor
+        run: |
+          grep -q 'SOURCE_FIRMWARE="SM-F971B/EUX/' unica/configs/qssi.sh
+          grep -q 'SOURCE_PLATFORM_SDK_VERSION=37' unica/configs/qssi.sh
+          grep -q 'SOURCE_PRODUCT_SHIPPING_API_LEVEL=36' unica/configs/qssi.sh
+          grep -q 'SOURCE_BOARD_API_LEVEL=36' unica/configs/qssi.sh
+          grep -q 'Build: `F971BXXU1AZFW`' target/a52xq/DONOR.md
+
       - name: Validate scripts
         run: |
           bash -n tools/a52xq/check_host.sh
           bash -n tools/a52xq/inspect_mystic_gsi.sh
           bash -n platform/sm7225/config.sh
+          bash -n unica/configs/qssi.sh
           python3 -m py_compile tools/a52xq/compare_vintf.py
 
       - name: Confirm risky legacy patches remain disabled
@@ -44,3 +57,4 @@ jobs:
           for group in adb camera miscs spf stock_blobs; do
             test -f "target/a52xq/patches/$group/disable"
           done
+          test -f unica/patches/product_feature/disable
